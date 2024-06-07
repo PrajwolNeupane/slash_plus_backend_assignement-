@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dbConfig from './config/dbConfig.js';
+import auth from './routes/auth.js'
 
 const port = 3000;
 const app = express();
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
         message: "Working Fine"
     })
 });
+
+app.use("/auth", auth);
 
 app.listen(port, async () => {
     console.log("---------------------------");
