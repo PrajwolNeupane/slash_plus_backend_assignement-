@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dbConfig from './config/dbConfig.js';
 import auth from './routes/auth.js'
+import dashboard from './routes/dashboard.js';
 
 const port = 3000;
 const app = express();
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", auth);
+app.use("/dashboard", dashboard);
 
 app.listen(port, async () => {
     console.log("---------------------------");
