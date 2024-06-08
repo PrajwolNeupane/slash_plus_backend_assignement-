@@ -13,7 +13,7 @@ const authenticateAccessToken = (req, res, next) => {
     req.user = decoded; // Attach the decoded payload (usually the user ID) to the request object
     next(); // Call the next middleware or route handler
   } catch (err) {
-    return res.status(403).json({ error: "Invalid token." });
+    return res.status(403).json({ error: "Invalid token.", title: "Forbidden" });
   }
 };
 

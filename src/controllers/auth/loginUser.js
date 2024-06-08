@@ -4,7 +4,6 @@ import Log from "../../model/log.model.js";
 import "dotenv/config";
 import errorHandler from "../../utils/errorHandler.js";
 import generateTokens from "../../utils/generateTokens.js";
-import useragent from "user-agent"; // Import the user-agent library
 
 export default async function loginUser(req, res) {
     try {
@@ -61,20 +60,10 @@ export default async function loginUser(req, res) {
             });
         }
 
-        // Get device information from the User-Agent header
-        const userAgentString = req.headers["user-agent"];
-        const userAgentData = useragent.parse(userAgentString);
-
-        const deviceInfo = {
-            os: userAgentData.os?.toString() || "Provided",
-            device: userAgentData.device?.toString() || "Not",
-        };
-
         // Create a log document for successful login
         const log = new Log({
             action: "User Logged In",
             user: existingUser._id,
-            device: `${deviceInfo.device}-${deviceInfo.os}`,
         });
 
         await log.save();

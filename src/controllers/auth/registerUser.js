@@ -5,7 +5,6 @@ import "dotenv/config";
 import errorHandler from "../../utils/errorHandler.js";
 import generateAvatarUrl from "../../utils/avatarGenerator.js";
 import generateTokens from "../../utils/generateTokens.js";
-import useragent from "user-agent"; // Import the user-agent library
 
 export default async function registerUser(req, res) {
     try {
@@ -47,7 +46,6 @@ export default async function registerUser(req, res) {
 
         }
 
-
         const { email, code } = req.body;
         // Checking if the user exists or not
         const existingUser = await User.findOne({
@@ -74,20 +72,10 @@ export default async function registerUser(req, res) {
         // Save the user and get the created user document
         const createdUser = await user.save();
 
-        // Get device information from the User-Agent header
-        const userAgentString = req.headers["user-agent"];
-        const userAgentData = useragent.parse(userAgentString);
-
-        const deviceInfo = {
-            os: userAgentData.os?.toString() || "Provided",
-            device: userAgentData.device?.toString() || "Not",
-        };
-
         // Create a log document only if the user is created successfully
         const log = new Log({
             action: "Account Created",
             user: createdUser._id,
-            device: `${deviceInfo.device}-${deviceInfo.os}`,
         });
 
         await log.save();
